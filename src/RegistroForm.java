@@ -13,12 +13,40 @@ public class RegistroForm extends JFrame {
     private JButton limpiarButton;
     private JButton volverButton;
 
-    public RegistroForm(String usuario) {
+    private String codigoGuardado;
+    private String nombreGuardado;
+    private String detalleGuardado;
+    private double precioGuardado;
+    private int stockGuardado;
+    private MenuForm menu;
+
+    public String getCodigoGuardado(){
+        return codigoGuardado;
+    }
+    public String getNombreGuardado(){
+        return nombreGuardado;
+    }
+    public String getDetalleGuardado(){
+        return detalleGuardado;
+    }
+    public double getPrecioGuardado(){
+        return precioGuardado;
+    }
+    public int getStockGuardado(){
+        return stockGuardado;
+    }
+    public void setStockGuardado(int stockGuardado) {
+        this.stockGuardado = stockGuardado;
+    }
+    public RegistroForm(String usuario, MenuForm menu) {
+        this.menu = menu;
         setTitle("Registros");
         setContentPane(panelRegistro);
         setSize(300,300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
         limpiarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -32,8 +60,8 @@ public class RegistroForm extends JFrame {
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MenuForm(usuario).setVisible(true);
-                dispose();
+                menu.volverMenu();
+                RegistroForm.this.setVisible(false);
             }
         });
         guardarButton.addActionListener(new ActionListener() {
@@ -55,10 +83,16 @@ public class RegistroForm extends JFrame {
                         JOptionPane.showMessageDialog(null,"Precio maximo de 4 cifras");
                         return;
                     }
-                    if (stockD > 999){
-                        JOptionPane.showMessageDialog(null,"Stock maximo de 3 cifras");
+                    if (stockD > 999) {
+                        JOptionPane.showMessageDialog(null, "Stock maximo de 3 cifras");
                         return;
                     }
+                    codigoGuardado = codigo;
+                    nombreGuardado = nombre;
+                    detalleGuardado = detalle;
+                    precioGuardado = precioD;
+                    stockGuardado = stockD;
+
                     JOptionPane.showMessageDialog(null,"GUARDADO CORRECTAMENTE");
 
                     CodigoField.setText("");
@@ -76,3 +110,7 @@ public class RegistroForm extends JFrame {
         });
     }
 }
+
+
+
+

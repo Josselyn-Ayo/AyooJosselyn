@@ -7,37 +7,51 @@ public class MenuForm extends JFrame {
     private JButton registrosButton;
     private JButton ventasButton;
     private JButton verProductosButton;
+    private RegistroForm registroForm = null;
 
-    public MenuForm(String usuario){
-        setTitle("Menu de opciones");
+    public MenuForm(String usuario) {
+        setTitle("Menú de opciones");
         setContentPane(panelMenu);
-        setSize(300,300);
+        setSize(300, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 
-        registrosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new RegistroForm(usuario).setVisible(true);
-                dispose();
-
+        registrosButton.addActionListener(e -> {
+            if (registroForm == null) {
+                registroForm = new RegistroForm(usuario, this);
+            } else {
+                registroForm.setVisible(true);
             }
+            this.setVisible(false);
         });
-        ventasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentasForm().setVisible(true);
-                dispose();
 
+        ventasButton.addActionListener(e -> {
+            if (registroForm == null || registroForm.getCodigoGuardado() == null) {
+                JOptionPane.showMessageDialog(null, "Primero registra un producto.");
+                return;
             }
+            new VentasForm(usuario, registroForm, this);
+            this.setVisible(false);
         });
-        verProductosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VerProductosForm().setVisible(true);
-                dispose();
 
+        verProductosButton.addActionListener(e -> {
+            if (registroForm == null || registroForm.getCodigoGuardado() == null || registroForm.getCodigoGuardado().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Primero registra un producto.");
+                return;
             }
+            new VerProductosForm(registroForm, this).setVisible(true);
+            this.setVisible(false);
         });
+
+
+
+    }
+
+    public void volverMenu() {
+        this.setVisible(true);
     }
 }
+
+
+

@@ -13,6 +13,7 @@ public class Login extends JFrame {
         setTitle("Login");
         setSize(300,300);
         setContentPane(panel1);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
         accesoButton.addActionListener(new ActionListener() {
@@ -22,6 +23,7 @@ public class Login extends JFrame {
                 String password = new String(passwordField1.getPassword());
                 if (usuario.isEmpty()|| password.isEmpty()){
                     JOptionPane.showMessageDialog(null,"Por favor llenar los campos vacios :)");
+                    return;
                 }
                 if (usuario.equals("Josselyn") && password.equals("clave123")){
                     JOptionPane.showMessageDialog(null,"Bienvenidos al Menú de opciones");
